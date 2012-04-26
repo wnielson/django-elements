@@ -1,0 +1,5 @@
+{% if inline %}
+<span class="element {{ content_type_class }}{% if class %} {{ class }}{% endif %}">{{ object }}</span>
+{% else %}
+<div class="element {{ content_type_class }}{% if class %} {{ class }}{% endif %}">{{ object }}</div>
+{% endif %}
