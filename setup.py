@@ -13,7 +13,8 @@ setup(
     keywords="django markdown macros",
     packages=[
         "elements",
-        "elements.extensions"
+        "elements.extensions",
+        "elements.templatetags"
     ],
     include_package_data = True,
     package_data={
