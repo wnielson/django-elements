@@ -2,8 +2,8 @@ django-elements
 ===============
 
 This application is designed to provide an easy way to embed arbitrary objects
-into textual content.  Text is written in Markdown and objects can be inserted,
-as either inline or block-level elements, using a simple Trac-like macro
+into textual content.  Text is written in [Markdown][] and objects can be inserted,
+as either inline or block-level elements, using a simple [Trac-like macro][]
 syntax.  As a simple example, here is some text written in Markdown using
 `django-elements`:
 
@@ -21,7 +21,10 @@ syntax.  As a simple example, here is some text written in Markdown using
     want.  For example, here is an image that has been placed inline with the
     text [[Element(type='filer.image', id='2')]].
 	
-[django-filer]: https://github.com/stefanfoulis/django-filer
+    [django-filer]: https://github.com/stefanfoulis/django-filer
+
+[Markdown]: http://daringfireball.net/projects/markdown/
+[Trac-like macro]: http://trac.edgewall.org/wiki/WikiMacros
 
 Installation
 ------------
