@@ -15,18 +15,22 @@ powerful macro system (similar to the macro syntax used in `Trac`_) via
 `markdown-macros`_.  Since a picture is worth 1000 words, here is an example of a
 document written with ``django-elements``:
 
+.. image:: images/screen_1.*
+
 .. _Django:           http://djangoproject.com/
 .. _WYSIWYG:          http://en.wikipedia.org/wiki/WYSIWYG/
 .. _Markdown:         http://daringfireball.net/projects/markdown/
 .. _Trac:             http://trac.edgewall.org/wiki/WikiMacros/
 .. _markdown-macros:  http://github.com/wnielson/markdown-macros/
 
-.. image:: images/screen_1.*
-
 Contents:
 
 .. toctree::
    :maxdepth: 2
+   
+   installation
+   configuration
+   usage
 
 
 
