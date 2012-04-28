@@ -62,7 +62,8 @@ ElementsPlugin.prototype.buildEl = function() {
         div = $('<div>').addClass('markItUpElementsPlugin'),
         p = $('<p>').addClass('aligned'),
         select = $('<select style="margin-right: 10px;">').attr('id', 'id_element_content_type-'+id).change(function(evt) {
-            document.getElementById('lookup_id_inline-'+id).href = '../../../'+this.value+'/';
+            value = this.value.split(':')[0];
+            document.getElementById('lookup_id_inline-'+id).href = '../../../'+value+'/';
         }),
         a = $('<a>').attr('id', 'lookup_id_inline-'+id).addClass('related-lookup').click(function() {
             if (document.getElementById('id_element_content_type-'+id).value != '----------') {
@@ -74,14 +75,12 @@ ElementsPlugin.prototype.buildEl = function() {
             me.createElement();
         });
     
-    //div.append('<label>Elements:</label>');
     p.append('<strong style="margin-right: 10px;">Type:</strong>');
     
-    // TODO: Load options via AJAX call
     select.append('<option>----------</option>');
     $.getJSON(ELEMENTS_URL, function(data) {
         $.each(data, function(key, val) {
-            select.append('<option value="'+val.content_type__app_label+'/'+val.content_type__model+'">'+val.title+' ('+val.content_type__app_label+': '+val.content_type__model+')</option>');
+            select.append('<option value="'+val.content_type__app_label+'/'+val.content_type__model+':'+val.title+'">'+val.title+' ('+val.content_type__app_label+': '+val.content_type__model+')</option>');
           });
     });
     
@@ -102,18 +101,20 @@ ElementsPlugin.prototype.createElement = function() {
     var element,
         app_label,
         model_name,
+        title,
         object_id = $('#id_inline-'+this.textarea.id).val(),
         val = $('#id_element_content_type-'+this.textarea.id).val();
     
     if (val) {
         bits = val.split('/');
         app_label = bits[0];
-        model_name = bits[1];
+        model_name = bits[1].split(':')[0];
+        title = bits[1].split(':')[1];
         type = val.replace('/', '.');
     }
     
     if (app_label && model_name && object_id) {
-        element = "[[Element(type='"+type+"', id='"+object_id+"')]]";
+        element = "[[El('"+title+"', id='"+object_id+"')]]";
         this.insert(element);
     }
 }

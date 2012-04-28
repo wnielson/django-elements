@@ -14,6 +14,22 @@ FIELDS = (
 )
 
 class ElementTypeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'element_name', 'app_label', 'model_name')
+    list_filter = ('content_type__app_label',)
+    
+    def app_label(self, obj):
+        return obj.content_type.app_label
+    app_label.admin_order_field = 'content_type__app_label'
+    
+    def model_name(self, obj):
+        return obj.content_type.model
+    model_name.admin_order_field = 'content_type__model'
+    
+    def element_name(self, obj):
+        return obj.name
+    element_name.short_description = 'name'
+    element_name.admin_order_field = 'title'
+    
     def get_urls(self):
         urls = super(ElementTypeAdmin, self).get_urls()
         my_urls = patterns('',
