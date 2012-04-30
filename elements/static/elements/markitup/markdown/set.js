@@ -51,6 +51,7 @@ mySettings = {
 
 function ElementsPlugin(textarea) {
     this.textarea = textarea;
+    this.elementTypes = {};
     
     // Insert the HTML element into the DOM
     $(textarea).prev('.markItUpHeader').find('ul').after(this.buildEl());
@@ -62,8 +63,16 @@ ElementsPlugin.prototype.buildEl = function() {
         div = $('<div>').addClass('markItUpElementsPlugin'),
         p = $('<p>').addClass('aligned'),
         select = $('<select style="margin-right: 10px;">').attr('id', 'id_element_content_type-'+id).change(function(evt) {
-            value = this.value.split(':')[0];
-            document.getElementById('lookup_id_inline-'+id).href = '../../../'+value+'/';
+            value = me.elementTypes[this.value];
+            url = value.content_type__app_label+'/'+value.content_type__model;
+            url = '../../../'+url+'/';
+            
+            // Add any filters that are defined for this element type
+            if (value.default_filters) {
+                url += '?'+value.default_filters;
+            }
+            
+            document.getElementById('lookup_id_inline-'+id).href = url;
         }),
         a = $('<a>').attr('id', 'lookup_id_inline-'+id).addClass('related-lookup').click(function() {
             if (document.getElementById('id_element_content_type-'+id).value != '----------') {
@@ -80,10 +89,10 @@ ElementsPlugin.prototype.buildEl = function() {
     select.append('<option>----------</option>');
     $.getJSON(ELEMENTS_URL, function(data) {
         $.each(data, function(key, val) {
-            select.append('<option value="'+val.content_type__app_label+'/'+val.content_type__model+':'+val.title+'">'+val.title+' ('+val.content_type__app_label+': '+val.content_type__model+')</option>');
+            me.elementTypes[val.id] = val;
+            select.append('<option value="'+val.id+'">'+val.title+' ('+val.content_type__app_label+': '+val.content_type__model+')</option>');
           });
     });
-    
     
     p.append(select);
     p.append('<strong style="margin-right: 10px;">Object:</strong>');

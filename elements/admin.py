@@ -8,6 +8,7 @@ from elements.models import ElementType, FlatElement
 FIELDS = (
     'id',
     'title',
+    'default_filters',
     'content_type__name',
     'content_type__model',
     'content_type__app_label'
