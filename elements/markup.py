@@ -1,5 +1,6 @@
 import markdown
 import mdx_macros
+import os
 import sys
 
 from django.contrib.contenttypes.models import ContentType
@@ -11,8 +12,6 @@ from django.utils.safestring import mark_safe
 
 from elements import settings
 from elements.models import ElementType
-
-from pprint import pprint
 
 class ElementMacro(mdx_macros.BaseMacro):
     name = "Element macro"
@@ -160,7 +159,6 @@ class ElementMacro(mdx_macros.BaseMacro):
                     'elements/%s/%s.html'               % (owner_app_label,
                                                            app_label)
                 ] + templates
-                
         
         # Config-defined template
         if self.config.get('template'):
@@ -175,13 +173,13 @@ class ElementMacro(mdx_macros.BaseMacro):
         if self.config.get('context'):
             context_instance = self.config.get('context')
         
-        pprint(templates)
-        
         return mark_safe(render_to_string(templates, context, context_instance))
 
 
 def convert(source, owner=None, context=None, template=None):
-
+    ext_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'extensions')
+    sys.path.append(ext_dir)
+    
     extensions_configs = settings.MARKDOWN_EXT_CONFIGS
     if not isinstance(extensions_configs, dict):
         extensions_configs = {}
